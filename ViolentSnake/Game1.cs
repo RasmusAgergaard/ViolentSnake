@@ -15,9 +15,12 @@ namespace ViolentSnake
         SpriteBatch spriteBatch;
 
         //Textures
+        Texture2D TextureBG;
         Texture2D TextureSnakePart;
         Texture2D TextureFoodPart;
+        Texture2D TextureFoodShadowPart;
         Texture2D TextureWallPart;
+        Texture2D TextureWallPartShadow;
 
         //Score
         SpriteFont font;
@@ -34,6 +37,7 @@ namespace ViolentSnake
 
         //Food
         Food SnakeFood;
+        float FoodAngle;
 
         //Wall
         private List<Wall> Walls;
@@ -81,6 +85,9 @@ namespace ViolentSnake
         private void CreateFood()
         {
             SnakeFood = new Food();
+
+            Random random = new Random();
+            FoodAngle = random.Next(0, 360);
         }
 
         private void Init()
@@ -117,9 +124,12 @@ namespace ViolentSnake
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            TextureBG = Content.Load<Texture2D>("background_desert");
             TextureSnakePart = Content.Load<Texture2D>("snake");
-            TextureFoodPart = Content.Load<Texture2D>("food");
+            TextureFoodPart = Content.Load<Texture2D>("sheep");
+            TextureFoodShadowPart = Content.Load<Texture2D>("sheep_shadow");
             TextureWallPart = Content.Load<Texture2D>("wall");
+            TextureWallPartShadow = Content.Load<Texture2D>("wall_shadow");
 
             font = Content.Load<SpriteFont>("Score");
         }
@@ -214,6 +224,9 @@ namespace ViolentSnake
             int gridY = random.Next(20, 480) / gridSize;
             SnakeFood.x = gridX * gridSize;
             SnakeFood.y = gridY * gridSize;
+
+            FoodAngle = random.Next(0, 360);
+
         }
 
         private void MoveSnake(GameTime gameTime)
@@ -313,6 +326,10 @@ namespace ViolentSnake
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
+            //Draw Background
+            Vector2 DrawBG = new Vector2(0,0);
+            spriteBatch.Draw(TextureBG, DrawBG, null, Color.White, 0f, new Vector2(0, 0), Vector2.One, SpriteEffects.None, 0f);
+
             //Draw snake
             for (int i = 0; i < Snake.Count; i++)
             {
@@ -322,12 +339,16 @@ namespace ViolentSnake
 
             //Draw food
             Vector2 DrawFood = new Vector2(SnakeFood.x, SnakeFood.y);
-            spriteBatch.Draw(TextureFoodPart, DrawFood, null, Color.White, 0f, new Vector2(TextureFoodPart.Width / 2, TextureFoodPart.Height / 2), Vector2.One, SpriteEffects.None, 0f);
+            Vector2 DrawFoodShadow = new Vector2(SnakeFood.x - 3, SnakeFood.y + 3);
+            spriteBatch.Draw(TextureFoodShadowPart, DrawFoodShadow, null, Color.White, FoodAngle, new Vector2(TextureFoodShadowPart.Width / 2, TextureFoodShadowPart.Height / 2), Vector2.One, SpriteEffects.None, 0f);
+            spriteBatch.Draw(TextureFoodPart, DrawFood, null, Color.White, FoodAngle, new Vector2(TextureFoodPart.Width / 2, TextureFoodPart.Height / 2), Vector2.One, SpriteEffects.None, 0f);
 
             //Draw wall
             for (int i = 0; i < Walls.Count; i++)
             {
                 Vector2 DrawWall = new Vector2(Walls[i].x, Walls[i].y);
+                Vector2 DrawWallShadow = new Vector2(Walls[i].x-3, Walls[i].y+3);
+                spriteBatch.Draw(TextureWallPartShadow, DrawWallShadow, null, Color.White, 0f, new Vector2(TextureWallPartShadow.Width / 2, TextureWallPartShadow.Height / 2), Vector2.One, SpriteEffects.None, 0f);
                 spriteBatch.Draw(TextureWallPart, DrawWall, null, Color.White, 0f, new Vector2(TextureWallPart.Width / 2, TextureWallPart.Height / 2), Vector2.One, SpriteEffects.None, 0f);
             }
 

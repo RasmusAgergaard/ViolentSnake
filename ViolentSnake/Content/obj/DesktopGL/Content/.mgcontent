@@ -4,15 +4,21 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Google drev/Main drive/Programming/Projects/ViolentSnake/ViolentSnake/Content/ball.png</File>
+    <File>C:/Google drev/Main drive/Programming/Projects/ViolentSnake/ViolentSnake/Content/background_desert.png</File>
     <File>C:/Google drev/Main drive/Programming/Projects/ViolentSnake/ViolentSnake/Content/File.spritefont</File>
     <File>C:/Google drev/Main drive/Programming/Projects/ViolentSnake/ViolentSnake/Content/food.png</File>
+    <File>C:/Google drev/Main drive/Programming/Projects/ViolentSnake/ViolentSnake/Content/sheep.png</File>
+    <File>C:/Google drev/Main drive/Programming/Projects/ViolentSnake/ViolentSnake/Content/sheep_shadow.png</File>
     <File>C:/Google drev/Main drive/Programming/Projects/ViolentSnake/ViolentSnake/Content/snake.png</File>
     <File>C:/Google drev/Main drive/Programming/Projects/ViolentSnake/ViolentSnake/Content/wall.png</File>
+    <File>C:/Google drev/Main drive/Programming/Projects/ViolentSnake/ViolentSnake/Content/wall_shadow.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />
     <File>Score.spritefont</File>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

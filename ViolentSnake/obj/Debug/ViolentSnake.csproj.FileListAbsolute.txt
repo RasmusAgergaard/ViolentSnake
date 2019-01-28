@@ -29,7 +29,6 @@ C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\Des
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\libSDL2-2.0.0.dylib
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\libopenal.1.dylib
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll.config
-C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\ball.xnb
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\ViolentSnake.exe
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\ViolentSnake.pdb
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll
@@ -42,3 +41,7 @@ C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\Des
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\food.xnb
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\wall.xnb
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\Score.xnb
+C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\background_desert.xnb
+C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\sheep.xnb
+C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\sheep_shadow.xnb
+C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\wall_shadow.xnb
