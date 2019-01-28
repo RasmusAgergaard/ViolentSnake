@@ -41,3 +41,4 @@ C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\obj\Deb
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\snake.xnb
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\food.xnb
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\wall.xnb
+C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\Score.xnb

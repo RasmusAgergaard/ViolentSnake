@@ -18,8 +18,8 @@ namespace ViolentSnake
         {
             int gridSize = 20;
 
-            int gridX = random.Next(0, 500) / gridSize;
-            int gridY = random.Next(0, 500) / gridSize;
+            int gridX = random.Next(20, 480) / gridSize;
+            int gridY = random.Next(20, 480) / gridSize;
             x = gridX * gridSize;
             y = gridY * gridSize;
         }

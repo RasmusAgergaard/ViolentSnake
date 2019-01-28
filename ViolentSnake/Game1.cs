@@ -19,6 +19,11 @@ namespace ViolentSnake
         Texture2D TextureFoodPart;
         Texture2D TextureWallPart;
 
+        //Score
+        SpriteFont font;
+        int currentScore;
+        int bestScore;
+
         //Snake
         private List<SnakeBody> Snake;
         float SnakeSpeed;
@@ -57,6 +62,8 @@ namespace ViolentSnake
             CreateWalls();
             Init();
 
+            bestScore = 0; //This is separate, so not to update it upon death
+
             base.Initialize();
         }
 
@@ -82,6 +89,7 @@ namespace ViolentSnake
             TimeBetweenMoves = 0.15f;
             SnakeSpeed = 20f;
             CurrentDirection = (int)SnakeDirection.up;
+            currentScore = 0;
         }
 
         private void CreateSnake()
@@ -112,6 +120,8 @@ namespace ViolentSnake
             TextureSnakePart = Content.Load<Texture2D>("snake");
             TextureFoodPart = Content.Load<Texture2D>("food");
             TextureWallPart = Content.Load<Texture2D>("wall");
+
+            font = Content.Load<SpriteFont>("Score");
         }
 
         /// <summary>
@@ -169,6 +179,18 @@ namespace ViolentSnake
                     MoveFood();
                 }
             }
+
+            //Leaving game area
+            if (Snake[0].x < 0 || Snake[0].x > 500)
+            {
+                Die();
+            }
+
+            if (Snake[0].y < 0 || Snake[0].y > 500)
+            {
+                Die();
+            }
+
         }
 
         private void AddSnakeBody()
@@ -179,14 +201,17 @@ namespace ViolentSnake
 
             Snake[snakeLenght].x = Snake[0].x;
             Snake[snakeLenght].y = Snake[0].y;
+
+            //Add to score
+            currentScore = currentScore + 1;
         }
 
         private void MoveFood()
         {
             Random random = new Random();
             int gridSize = 20;
-            int gridX = random.Next(0, 500) / gridSize;
-            int gridY = random.Next(0, 500) / gridSize;
+            int gridX = random.Next(20, 480) / gridSize;
+            int gridY = random.Next(20, 480) / gridSize;
             SnakeFood.x = gridX * gridSize;
             SnakeFood.y = gridY * gridSize;
         }
@@ -260,7 +285,20 @@ namespace ViolentSnake
 
         private void Die()
         {
-            throw new NotImplementedException();
+            SetBestScore();
+            CreateSnake();
+            CreateFood();
+            CreateWalls();
+            Init();
+        }
+
+        private void SetBestScore()
+        {
+            //If the current score is better than the best, update it
+            if (currentScore > bestScore)
+            {
+                bestScore = currentScore;
+            }
         }
 
 
@@ -293,6 +331,13 @@ namespace ViolentSnake
                 spriteBatch.Draw(TextureWallPart, DrawWall, null, Color.White, 0f, new Vector2(TextureWallPart.Width / 2, TextureWallPart.Height / 2), Vector2.One, SpriteEffects.None, 0f);
             }
 
+            //Draw score
+            spriteBatch.DrawString(font, "Score: " + currentScore, new Vector2(20, 20), Color.Black);
+
+            if (bestScore > 0)
+            {
+                spriteBatch.DrawString(font, "Best: " + bestScore, new Vector2(20, 40), Color.Black);
+            }
 
             spriteBatch.End();
 
