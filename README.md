@@ -1,5 +1,5 @@
 # ViolentSnake
-Snake game made in MonoGame
+Snake game made with MonoGame
 
 Rules:
 - Eat as much food as possible (Red blocks)
