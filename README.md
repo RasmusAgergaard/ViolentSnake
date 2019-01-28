@@ -8,3 +8,5 @@ Rules:
 
 Controls:
 - Use the arrow-keys to change the direction of the snake
+
+![Game picture](https://github.com/RasmusAgergaard/ViolentSnake/blob/master/readme_gfx/snake_game.png)
