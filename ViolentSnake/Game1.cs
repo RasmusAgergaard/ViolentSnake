@@ -18,9 +18,7 @@ namespace ViolentSnake
         Texture2D TextureBG;
         Texture2D TextureSnakePart;
         Texture2D TextureFoodPart;
-        Texture2D TextureFoodShadowPart;
         Texture2D TextureWallPart;
-        Texture2D TextureWallPartShadow;
 
         //Score
         SpriteFont font;
@@ -71,6 +69,7 @@ namespace ViolentSnake
             base.Initialize();
         }
 
+        /********** Methods **********/
         private void CreateWalls()
         {
             Walls = new List<Wall>();
@@ -87,7 +86,6 @@ namespace ViolentSnake
             SnakeFood = new Food();
 
             Random random = new Random();
-            FoodAngle = random.Next(0, 360);
         }
 
         private void Init()
@@ -126,10 +124,8 @@ namespace ViolentSnake
             // TODO: use this.Content to load your game content here
             TextureBG = Content.Load<Texture2D>("background_desert");
             TextureSnakePart = Content.Load<Texture2D>("snake");
-            TextureFoodPart = Content.Load<Texture2D>("sheep");
-            TextureFoodShadowPart = Content.Load<Texture2D>("sheep_shadow");
+            TextureFoodPart = Content.Load<Texture2D>("food");
             TextureWallPart = Content.Load<Texture2D>("wall");
-            TextureWallPartShadow = Content.Load<Texture2D>("wall_shadow");
 
             font = Content.Load<SpriteFont>("Score");
         }
@@ -160,11 +156,13 @@ namespace ViolentSnake
             ChangeSnakeDirection();
             MoveSnake(gameTime);
             CollisionCheck();
+            RotateFood();
 
             //Update
             base.Update(gameTime);
         }
 
+        /********** Methods **********/
         private void CollisionCheck()
         {
             // If Snakehead and food is in the same location
@@ -224,9 +222,11 @@ namespace ViolentSnake
             int gridY = random.Next(20, 480) / gridSize;
             SnakeFood.x = gridX * gridSize;
             SnakeFood.y = gridY * gridSize;
+        }
 
-            FoodAngle = random.Next(0, 360);
-
+        private void RotateFood()
+        {
+            FoodAngle = FoodAngle + 0.01f;
         }
 
         private void MoveSnake(GameTime gameTime)
@@ -321,35 +321,31 @@ namespace ViolentSnake
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            //Clear the screen
             GraphicsDevice.Clear(Color.White);
 
-            // TODO: Add your drawing code here
+            //Colors
+            Color shadowColor = Color.Lerp(Color.Black, Color.Transparent, 0.6f);
+
+            //Start of draw
             spriteBatch.Begin();
 
             //Draw Background
-            Vector2 DrawBG = new Vector2(0,0);
-            spriteBatch.Draw(TextureBG, DrawBG, null, Color.White, 0f, new Vector2(0, 0), Vector2.One, SpriteEffects.None, 0f);
+            DrawSprite(250f, 250f, TextureBG, 0f);
+
+            //Draw food
+            DrawSprite(SnakeFood.x, SnakeFood.y, TextureFoodPart, FoodAngle, shadowColor);
 
             //Draw snake
             for (int i = 0; i < Snake.Count; i++)
             {
-                Vector2 DrawBody = new Vector2(Snake[i].x, Snake[i].y);
-                spriteBatch.Draw(TextureSnakePart, DrawBody, null, Color.White, 0f, new Vector2(TextureSnakePart.Width / 2, TextureSnakePart.Height / 2), Vector2.One, SpriteEffects.None, 0f);
+                DrawSprite(Snake[i].x, Snake[i].y, TextureSnakePart, 0f, shadowColor);
             }
-
-            //Draw food
-            Vector2 DrawFood = new Vector2(SnakeFood.x, SnakeFood.y);
-            Vector2 DrawFoodShadow = new Vector2(SnakeFood.x - 3, SnakeFood.y + 3);
-            spriteBatch.Draw(TextureFoodShadowPart, DrawFoodShadow, null, Color.White, FoodAngle, new Vector2(TextureFoodShadowPart.Width / 2, TextureFoodShadowPart.Height / 2), Vector2.One, SpriteEffects.None, 0f);
-            spriteBatch.Draw(TextureFoodPart, DrawFood, null, Color.White, FoodAngle, new Vector2(TextureFoodPart.Width / 2, TextureFoodPart.Height / 2), Vector2.One, SpriteEffects.None, 0f);
 
             //Draw wall
             for (int i = 0; i < Walls.Count; i++)
             {
-                Vector2 DrawWall = new Vector2(Walls[i].x, Walls[i].y);
-                Vector2 DrawWallShadow = new Vector2(Walls[i].x-3, Walls[i].y+3);
-                spriteBatch.Draw(TextureWallPartShadow, DrawWallShadow, null, Color.White, 0f, new Vector2(TextureWallPartShadow.Width / 2, TextureWallPartShadow.Height / 2), Vector2.One, SpriteEffects.None, 0f);
-                spriteBatch.Draw(TextureWallPart, DrawWall, null, Color.White, 0f, new Vector2(TextureWallPart.Width / 2, TextureWallPart.Height / 2), Vector2.One, SpriteEffects.None, 0f);
+                DrawSprite(Walls[i].x, Walls[i].y, TextureWallPart, 0f, shadowColor);
             }
 
             //Draw score
@@ -360,9 +356,25 @@ namespace ViolentSnake
                 spriteBatch.DrawString(font, "Best: " + bestScore, new Vector2(20, 40), Color.Black);
             }
 
+            //End of draw
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        /********** Methods **********/
+        private void DrawSprite(float xpos, float ypos, Texture2D texture, float angle)
+        {
+            Vector2 DrawSprite = new Vector2(xpos, ypos);
+            spriteBatch.Draw(texture, DrawSprite, null, Color.White, angle, new Vector2(texture.Width / 2, texture.Height / 2), Vector2.One, SpriteEffects.None, 0f);
+        }
+
+        private void DrawSprite(float xpos, float ypos, Texture2D texture, float angle, Color shadowColor)
+        {
+            Vector2 DrawSpriteShadow = new Vector2(xpos - 3, ypos + 3);
+            Vector2 DrawSprite = new Vector2(xpos, ypos);
+            spriteBatch.Draw(texture, DrawSpriteShadow, null, shadowColor, angle, new Vector2(texture.Width / 2, texture.Height / 2), Vector2.One, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, DrawSprite, null, Color.White, angle, new Vector2(texture.Width / 2, texture.Height / 2), Vector2.One, SpriteEffects.None, 0f);
         }
     }
 }

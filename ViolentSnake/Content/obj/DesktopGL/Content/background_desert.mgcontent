@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/Google drev/Main drive/Programming/Projects/ViolentSnake/ViolentSnake/Content/background_desert.png</SourceFile>
-  <SourceTime>2019-01-28T14:45:46.2124694+01:00</SourceTime>
+  <SourceTime>2019-01-29T10:19:17.5684903+01:00</SourceTime>
   <DestFile>C:/Google drev/Main drive/Programming/Projects/ViolentSnake/ViolentSnake/Content/bin/DesktopGL/Content/background_desert.xnb</DestFile>
-  <DestTime>2019-01-28T15:01:13.7014564+01:00</DestTime>
+  <DestTime>2019-01-29T10:19:31.5233485+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-09-23T23:55:52+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
