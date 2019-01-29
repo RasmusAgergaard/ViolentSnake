@@ -43,3 +43,4 @@ C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\Des
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\Score.xnb
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\background_desert.xnb
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\wall_shadow.xnb
+C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\death.xnb

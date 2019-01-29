@@ -14,8 +14,9 @@ namespace ViolentSnake
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        //Textures
+        //Texture items
         Texture2D TextureBG;
+        Texture2D TextureDeath;
         Texture2D TextureSnakePart;
         Texture2D TextureFoodPart;
         Texture2D TextureWallPart;
@@ -39,6 +40,11 @@ namespace ViolentSnake
 
         //Wall
         private List<Wall> Walls;
+
+        //Death splash
+        bool DrawDeathSplash;
+        int DrawDeathSplashTime;
+        int DrawDeathSplashTimer;
 
         //Constructor
         public Game1()
@@ -95,6 +101,11 @@ namespace ViolentSnake
             SnakeSpeed = 20f;
             CurrentDirection = (int)SnakeDirection.up;
             currentScore = 0;
+
+            //Death splash
+            DrawDeathSplash = false;
+            DrawDeathSplashTime = 20;
+            DrawDeathSplashTimer = DrawDeathSplashTime;
         }
 
         private void CreateSnake()
@@ -123,6 +134,7 @@ namespace ViolentSnake
 
             // TODO: use this.Content to load your game content here
             TextureBG = Content.Load<Texture2D>("background_desert");
+            TextureDeath = Content.Load<Texture2D>("death");
             TextureSnakePart = Content.Load<Texture2D>("snake");
             TextureFoodPart = Content.Load<Texture2D>("food");
             TextureWallPart = Content.Load<Texture2D>("wall");
@@ -157,6 +169,7 @@ namespace ViolentSnake
             MoveSnake(gameTime);
             CollisionCheck();
             RotateFood();
+            ShowOrHideDeathSplash();
 
             //Update
             base.Update(gameTime);
@@ -165,7 +178,7 @@ namespace ViolentSnake
         /********** Methods **********/
         private void CollisionCheck()
         {
-            // If Snakehead and food is in the same location
+            //Food
             if (Snake[0].x == SnakeFood.x && Snake[0].y == SnakeFood.y)
             {
                 MoveFood();
@@ -189,16 +202,15 @@ namespace ViolentSnake
             }
 
             //Leaving game area
-            if (Snake[0].x < 0 || Snake[0].x > 500)
+            if (Snake[0].x < 20 || Snake[0].x > 480)
             {
                 Die();
             }
 
-            if (Snake[0].y < 0 || Snake[0].y > 500)
+            if (Snake[0].y < 20 || Snake[0].y > 480)
             {
                 Die();
             }
-
         }
 
         private void AddSnakeBody()
@@ -216,12 +228,16 @@ namespace ViolentSnake
 
         private void MoveFood()
         {
+            //Move food
             Random random = new Random();
             int gridSize = 20;
             int gridX = random.Next(20, 480) / gridSize;
             int gridY = random.Next(20, 480) / gridSize;
             SnakeFood.x = gridX * gridSize;
             SnakeFood.y = gridY * gridSize;
+
+            //Reduce timer
+            TimeBetweenMoves = TimeBetweenMoves - 0.0025f;
         }
 
         private void RotateFood()
@@ -298,11 +314,15 @@ namespace ViolentSnake
 
         private void Die()
         {
+            //Reset game
             SetBestScore();
             CreateSnake();
             CreateFood();
             CreateWalls();
             Init();
+
+            //Show splash
+            DrawDeathSplash = true;
         }
 
         private void SetBestScore()
@@ -314,6 +334,21 @@ namespace ViolentSnake
             }
         }
 
+        private void ShowOrHideDeathSplash()
+        {
+            if (DrawDeathSplash == true)
+            {
+                DrawDeathSplashTimer = DrawDeathSplashTimer - 1;
+
+                if (DrawDeathSplashTimer <= 0)
+                {
+                    DrawDeathSplashTimer = DrawDeathSplashTime;
+                    DrawDeathSplash = false;
+                }
+            }
+
+
+        }
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -350,10 +385,16 @@ namespace ViolentSnake
 
             //Draw score
             spriteBatch.DrawString(font, "Score: " + currentScore, new Vector2(20, 20), Color.Black);
-
+        
             if (bestScore > 0)
             {
                 spriteBatch.DrawString(font, "Best: " + bestScore, new Vector2(20, 40), Color.Black);
+            }
+
+            //Draw death splash
+            if (DrawDeathSplash == true)
+            {
+                DrawSprite(250f, 250f, TextureDeath, 0f);
             }
 
             //End of draw
@@ -368,7 +409,6 @@ namespace ViolentSnake
             Vector2 DrawSprite = new Vector2(xpos, ypos);
             spriteBatch.Draw(texture, DrawSprite, null, Color.White, angle, new Vector2(texture.Width / 2, texture.Height / 2), Vector2.One, SpriteEffects.None, 0f);
         }
-
         private void DrawSprite(float xpos, float ypos, Texture2D texture, float angle, Color shadowColor)
         {
             Vector2 DrawSpriteShadow = new Vector2(xpos - 3, ypos + 3);
