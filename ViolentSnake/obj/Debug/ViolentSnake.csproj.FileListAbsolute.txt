@@ -17,7 +17,6 @@ C:\Google drive\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\obj\De
 C:\Google drive\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\obj\Debug\ViolentSnake.csproj.CopyComplete
 C:\Google drive\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\obj\Debug\ViolentSnake.exe
 C:\Google drive\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\obj\Debug\ViolentSnake.pdb
-C:\Google drive\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\ball.xnb
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\x86\SDL2.dll
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\x64\SDL2.dll
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\x86\soft_oal.dll
@@ -44,3 +43,10 @@ C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\Des
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\background_desert.xnb
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\wall_shadow.xnb
 C:\Google drev\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\death.xnb
+C:\Google drive\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\wall_shadow.xnb
+C:\Google drive\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\background_desert.xnb
+C:\Google drive\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\death.xnb
+C:\Google drive\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\food.xnb
+C:\Google drive\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\Score.xnb
+C:\Google drive\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\snake.xnb
+C:\Google drive\Main drive\Programming\Projects\ViolentSnake\ViolentSnake\bin\DesktopGL\AnyCPU\Debug\Content\wall.xnb

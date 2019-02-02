@@ -14,6 +14,9 @@ namespace ViolentSnake
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        //Level settings
+        int gridSize;
+
         //Texture items
         Texture2D textureBG;
         Texture2D textureDeath;
@@ -27,16 +30,11 @@ namespace ViolentSnake
         int bestScore;
 
         //Snake
-        private List<SnakeBody> snake;
-        float snakeSpeed;
-        float moveTimer;
-        float timeBetweenMoves;
-        enum snakeDirection {up, down, left, right };
-        int currentDirection;
+        public List<SnakeBody> snake;
+        public float timeBetweenMoves;
 
         //Food
         Food snakeFood;
-        float foodAngle;
 
         //Wall
         private List<Wall> walls;
@@ -65,6 +63,8 @@ namespace ViolentSnake
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            SetupLevel();
             CreateSnake();
             CreateFood();
             CreateWalls();
@@ -75,39 +75,30 @@ namespace ViolentSnake
             base.Initialize();
         }
 
+        
         /********** Methods **********/
+
+        //Create random walls, and add them to the wall list
         private void CreateWalls()
         {
             walls = new List<Wall>();
 
             for (int i = 0; i < 10; i++)
             {
-                Wall wall = new Wall();
+                Wall wall = new Wall(gridSize);
                 walls.Add(wall);
             }
         }
 
+        //Create random food
         private void CreateFood()
         {
-            snakeFood = new Food();
+            snakeFood = new Food(gridSize);
 
             Random random = new Random();
         }
 
-        private void Init()
-        {
-            moveTimer = 0f;
-            timeBetweenMoves = 0.15f;
-            snakeSpeed = 20f;
-            currentDirection = (int)snakeDirection.up;
-            currentScore = 0;
-
-            //Death splash
-            drawDeathSplash = false;
-            drawDeathSplashTime = 20;
-            drawDeathSplashTimer = drawDeathSplashTime;
-        }
-
+        //Create snake elements, and add them to the snake list
         private void CreateSnake()
         {
             snake = new List<SnakeBody>();
@@ -121,6 +112,27 @@ namespace ViolentSnake
                     snake[i].y = snake[i - 1].y + 20;
                 }
             }
+        }
+
+        //Used to both set and reset upon death
+        private void Init()
+        {
+            snake[0].moveTimer = 0f;
+            timeBetweenMoves = 0.15f;
+            snake[0].snakeSpeed = 20f;
+            //snake[0].currentDirection = snake[0].snakeDirection.up;
+            currentScore = 0;
+
+            //Death splash
+            drawDeathSplash = false;
+            drawDeathSplashTime = 20;
+            drawDeathSplashTimer = drawDeathSplashTime;
+        }
+
+        //Set level settings
+        private void SetupLevel()
+        {
+            gridSize = 20;
         }
 
         /// <summary>
@@ -165,10 +177,10 @@ namespace ViolentSnake
             }
 
             // TODO: Add your update logic here
-            ChangeSnakeDirection();
-            MoveSnake(gameTime);
+            snake[0].ChangeSnakeDirection();
+            snake[0].MoveSnake(gameTime, snake, timeBetweenMoves);
             CollisionCheck();
-            RotateFood();
+            snakeFood.RotateFood();
             ShowOrHideDeathSplash();
 
             //Update
@@ -176,43 +188,40 @@ namespace ViolentSnake
         }
 
         /********** Methods **********/
+
+        //All collision is handled here
         private void CollisionCheck()
         {
-            //Food
+            //Snakehead VS Food collision - Reduce time between moves, and move the food
             if (snake[0].x == snakeFood.x && snake[0].y == snakeFood.y)
             {
-                MoveFood();
+                timeBetweenMoves = snakeFood.MoveFood(timeBetweenMoves, gridSize);
                 AddSnakeBody();
             }
 
-            //Walls
+            //Loop though walls
             for (int i = 0; i < walls.Count; i++)
             {
-                // If Snakehead collides with walls
+                //Snakehead VS Walls - Death is all around us
                 if (snake[0].x == walls[i].x && snake[0].y == walls[i].y)
                 {
                     Die();
                 }
 
-                // If food collide with walls
+                //Food VS Walls - Replace food, so it's not unreachable
                 if (snakeFood.x == walls[i].x && snakeFood.y == walls[i].y)
                 {
-                    MoveFood();
+                    snakeFood.MoveFood(timeBetweenMoves, gridSize);
                 }
             }
 
-            //Leaving game area
-            if (snake[0].x < 20 || snake[0].x > 480)
+            //Snakehead leaving game area
+            if (snake[0].x < 20 || snake[0].x > 480 || snake[0].y < 20 || snake[0].y > 480) 
             {
                 Die();
             }
 
-            if (snake[0].y < 20 || snake[0].y > 480)
-            {
-                Die();
-            }
-
-            //Snake head vs snake body
+            //Snakehead VS Snakebody - Die! Break added as the snake.count is reset upon death, and that causes the list to fail
             for (int i = snake.Count - 1; i > 0; i--)
             {
                 if (snake[0].x == snake[i].x && snake[0].y == snake[i].y)
@@ -223,6 +232,7 @@ namespace ViolentSnake
             }
         }
 
+        //Add a new snake element to the list and increase the score
         private void AddSnakeBody()
         {
             SnakeBody body = new SnakeBody();
@@ -236,114 +246,28 @@ namespace ViolentSnake
             currentScore = currentScore + 1;
         }
 
-        private void MoveFood()
-        {
-            //Move food
-            Random random = new Random();
-            int gridSize = 20;
-            int gridX = random.Next(20, 480) / gridSize;
-            int gridY = random.Next(20, 480) / gridSize;
-            snakeFood.x = gridX * gridSize;
-            snakeFood.y = gridY * gridSize;
-
-            //Reduce timer and make the game more difficult
-            timeBetweenMoves = timeBetweenMoves - 0.0025f;
-        }
-
-        private void RotateFood()
-        {
-            foodAngle = foodAngle + 0.01f;
-        }
-
-        private void MoveSnake(GameTime gameTime)
-        {
-            moveTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            while (moveTimer >= timeBetweenMoves)
-            {
-                MoveSnakeBodys();
-                MoveSnakeHead();
-                moveTimer -= timeBetweenMoves;
-            }
-        }
-
-        private void ChangeSnakeDirection()
-        {
-            var keyState = Keyboard.GetState();
-
-            if (keyState.IsKeyDown(Keys.Up) && currentDirection != (int)snakeDirection.down)
-            {
-                currentDirection = (int)snakeDirection.up;
-            }
-
-            if (keyState.IsKeyDown(Keys.Down) && currentDirection != (int)snakeDirection.up)
-            {
-                currentDirection = (int)snakeDirection.down;
-            }
-
-            if (keyState.IsKeyDown(Keys.Left) && currentDirection != (int)snakeDirection.right)
-            {
-                currentDirection = (int)snakeDirection.left;
-            }
-
-            if (keyState.IsKeyDown(Keys.Right) && currentDirection != (int)snakeDirection.left)
-            {
-                currentDirection = (int)snakeDirection.right;
-            }
-        }
-
-        private void MoveSnakeHead()
-        {
-            switch (currentDirection)
-            {
-                case (int)snakeDirection.up:
-                    snake[0].y -= snakeSpeed;
-                    break;
-
-                case (int)snakeDirection.down:
-                    snake[0].y += snakeSpeed;
-                    break;
-
-                case (int)snakeDirection.left:
-                    snake[0].x -= snakeSpeed;
-                    break;
-
-                case (int)snakeDirection.right:
-                    snake[0].x += snakeSpeed;
-                    break;
-            }
-        }
-
-        private void MoveSnakeBodys()
-        {
-            for (int i = snake.Count - 1; i > 0; i--)
-            {
-                snake[i].x = snake[i - 1].x;
-                snake[i].y = snake[i - 1].y;
-            }
-        }
-
+        //Death, resert all stuff, and display the death-splash
         private void Die()
         {
-            //Reset game
             SetBestScore();
             CreateSnake();
             CreateFood();
             CreateWalls();
             Init();
 
-            //Show splash
             drawDeathSplash = true;
         }
 
+        //If the current score is better than the best, update it
         private void SetBestScore()
         {
-            //If the current score is better than the best, update it
             if (currentScore > bestScore)
             {
                 bestScore = currentScore;
             }
         }
 
+        //Only shows the death-splash for a short amount
         private void ShowOrHideDeathSplash()
         {
             //If the splash is drawn
@@ -382,7 +306,7 @@ namespace ViolentSnake
             DrawSprite(250f, 250f, textureBG, 0f);
 
             //Draw food
-            DrawSprite(snakeFood.x, snakeFood.y, textureFoodPart, foodAngle, shadowColor);
+            DrawSprite(snakeFood.x, snakeFood.y, textureFoodPart, snakeFood.foodAngle, shadowColor);
 
             //Draw snake
             for (int i = 0; i < snake.Count; i++)
@@ -416,12 +340,15 @@ namespace ViolentSnake
             base.Draw(gameTime);
         }
 
-        /********** Methods **********/
+        /********** Draw Methods **********/
+
+        //Standard draw
         private void DrawSprite(float xpos, float ypos, Texture2D texture, float angle)
         {
             Vector2 DrawSprite = new Vector2(xpos, ypos);
             spriteBatch.Draw(texture, DrawSprite, null, Color.White, angle, new Vector2(texture.Width / 2, texture.Height / 2), Vector2.One, SpriteEffects.None, 0f);
         }
+        //Draw with shadow
         private void DrawSprite(float xpos, float ypos, Texture2D texture, float angle, Color shadowColor)
         {
             Vector2 DrawSpriteShadow = new Vector2(xpos - 3, ypos + 3);

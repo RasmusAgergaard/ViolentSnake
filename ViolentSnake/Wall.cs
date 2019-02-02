@@ -14,14 +14,13 @@ namespace ViolentSnake
         public float x { get; set; }
         public float y { get; set; }
 
-        public Wall()
+        //Place the wall random in the grid
+        public Wall(int gridSize)
         {
-            int gridSize = 20;
-
-            int gridX = random.Next(20, 480) / gridSize;
-            int gridY = random.Next(20, 480) / gridSize;
-            x = gridX * gridSize;
-            y = gridY * gridSize;
+            int randomX = random.Next(1, 24);
+            int randomY = random.Next(1, 24);
+            x = randomX * gridSize;
+            y = randomY * gridSize;
         }
     }
 }
