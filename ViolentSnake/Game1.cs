@@ -15,34 +15,34 @@ namespace ViolentSnake
         SpriteBatch spriteBatch;
 
         //Level settings
-        int gridSize;
+        private int gridSize;
 
         //Texture items
-        Texture2D textureBG;
-        Texture2D textureDeath;
-        Texture2D textureSnakePart;
-        Texture2D textureFoodPart;
-        Texture2D textureWallPart;
+        private Texture2D textureBG;
+        private Texture2D textureDeath;
+        private Texture2D textureSnakePart;
+        private Texture2D textureFoodPart;
+        private Texture2D textureWallPart;
 
         //Score
-        SpriteFont font;
-        int currentScore;
-        int bestScore;
+        private SpriteFont font;
+        private int currentScore;
+        private int bestScore;
 
         //Snake
-        public List<SnakeBody> snake;
-        public float timeBetweenMoves;
+        private List<SnakeBody> snake;
+        private float timeBetweenMoves;
 
         //Food
-        Food snakeFood;
+        private Food snakeFood;
 
         //Wall
         private List<Wall> walls;
 
         //Death splash
-        bool drawDeathSplash;
-        int drawDeathSplashTime;
-        int drawDeathSplashTimer;
+        private bool drawDeathSplash;
+        private int drawDeathSplashTime;
+        private int drawDeathSplashTimer;
 
         //Constructor
         public Game1()
@@ -95,7 +95,7 @@ namespace ViolentSnake
         {
             snakeFood = new Food(gridSize);
 
-            Random random = new Random();
+             Random random = new Random();
         }
 
         //Create snake elements, and add them to the snake list

@@ -11,7 +11,7 @@ namespace ViolentSnake
     public class SnakeBody
     {
         //Init
-        public static Random random = new Random();
+        private static Random random = new Random();
         public float x { get; set; }
         public float y { get; set; }
         public float snakeSpeed { get; set; }
